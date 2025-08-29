@@ -1,11 +1,36 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 
-class CurrencyConvertor extends StatelessWidget {
-  const CurrencyConvertor({super.key});
+class CurrencyConvertorMaterialApp extends StatefulWidget {
+  const CurrencyConvertorMaterialApp({super.key});
 
   @override
+  State<CurrencyConvertorMaterialApp> createState() =>
+     _CurrencyConvertorMaterialAppState();
+  
+}
+
+class _CurrencyConvertorMaterialAppState extends State<CurrencyConvertorMaterialApp> {
+
+  double result = 0;
+  final TextEditingController textEditingController = TextEditingController();
+
+  void convert(){
+    setState(() {
+      result = double.parse(textEditingController.text) * 1.6;
+    });
+  }
+
+  @override
+  void dispose() {
+    textEditingController.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
+    print("Rebuild");
+    
+
     final border = OutlineInputBorder(
       borderSide: const BorderSide(
         color: Colors.black,
@@ -32,9 +57,9 @@ class CurrencyConvertor extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              "0",
-              style: TextStyle(
+             Text(
+              'NPR ${result != 0 ? result.toStringAsFixed(2) : result.toStringAsFixed(0)}',
+              style: const TextStyle(
                 fontSize: 50,
                 fontWeight: FontWeight.bold,
                 color: Color.fromARGB(255, 255, 255, 255),
@@ -43,6 +68,7 @@ class CurrencyConvertor extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: TextField(
+                controller: textEditingController,
                 style: const TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   hintText: "Enter Amount in NPR ok.",
@@ -63,11 +89,7 @@ class CurrencyConvertor extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: TextButton(
-                onPressed: () {
-                  if (kDebugMode) {
-                    print("Clicked Me");
-                  }
-                },
+                onPressed: convert,
                 style: TextButton.styleFrom(
                   backgroundColor: (Colors.black),
                   foregroundColor: (Colors.white),
@@ -85,3 +107,5 @@ class CurrencyConvertor extends StatelessWidget {
     );
   }
 }
+
+
